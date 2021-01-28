@@ -1,17 +1,17 @@
 /*
  * Copyright (C) 1997 Michael R. Elkins <me@cs.hmc.edu>
  * Copyright (C) 2012 Michael R. Elkins <me@sigpipe.org>
- * 
+ *
  *     This program is free software; you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
  *     the Free Software Foundation; either version 2 of the License, or
  *     (at your option) any later version.
- * 
+ *
  *     This program is distributed in the hope that it will be useful,
  *     but WITHOUT ANY WARRANTY; without even the implied warranty of
  *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *     GNU General Public License for more details.
- * 
+ *
  *     You should have received a copy of the GNU General Public License
  *     along with this program; if not, write to the Free Software
  *     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -19,7 +19,7 @@
  *
  * Created:       Thu Dec  4 02:13:11 PST 1997
  * Last Modified: Tue Jul  4 11:23:49 CEST 2000
- */ 
+ */
 
 #ifdef USE_SLANG
 #include <slcurses.h>
@@ -77,7 +77,7 @@ void search_forward (char *search, int urlcount, char **url, int *redraw, int *c
     move (LINES - 1, 0);
     clrtoeol ();
     *redraw = MOTION;
-  } 
+  }
   else
   {
     if ( (j = regcomp (&rx, search, REG_EXTENDED | REG_ICASE | REG_NEWLINE)) )
@@ -116,7 +116,7 @@ void search_backward (char *search, int urlcount, char **url, int *redraw, int *
     move (LINES - 1, 0);
     clrtoeol ();
     *redraw = MOTION;
-  } 
+  }
   else
   {
     if ((j = regcomp (&rx, search, REG_EXTENDED | REG_ICASE | REG_NEWLINE)))
@@ -145,7 +145,7 @@ void search_backward (char *search, int urlcount, char **url, int *redraw, int *
     regfree (&rx);
   }
 }
- 
+
 int main (int argc, char **argv)
 {
   struct passwd *pw;
@@ -186,17 +186,17 @@ int main (int argc, char **argv)
   int skip_browser = 0;
 
   int menu_wrapping = 0;
-  
+
   if (argc == 1)
     is_filter = 1;
 
   strncpy (regexp, DEFAULT_REGEXP, sizeof (regexp) - 1);
   strncpy (command, DEFAULT_COMMAND, sizeof (command) - 1);
-  
+
   /*** read the initialization file ***/
 
   pw = getpwuid (getuid ());
-  snprintf (buf, sizeof (buf), "%s/.urlview", pw->pw_dir);
+  snprintf (buf, sizeof (buf), "%s/.config/urlview/config", pw->pw_dir);
 
   /*** Check for users rc-file ***/
   if (stat (buf,&stat_buf) == -1)
@@ -270,7 +270,7 @@ int main (int argc, char **argv)
 	{
 		printf ("Unknown value for WRAP: %s. Valid values are: YES, NO\n", wrapchoice);
 		exit (1);
-	}	
+	}
       }
       else if (strncmp ("BROWSER", buf, 7) == 0 && isspace (buf[7]))
       {
@@ -292,8 +292,8 @@ int main (int argc, char **argv)
     }
     fclose (fp);
   }
- 
-  /* Only use the $BROWSER environment variable if 
+
+  /* Only use the $BROWSER environment variable if
    * (a) no COMMAND in rc file or
    * (b) BROWSER in rc file.
    * If both COMMAND and BROWSER are in the rc file, then the option used
@@ -311,7 +311,7 @@ int main (int argc, char **argv)
     }
   }
 
-  if (!expert && strchr (command, '\'')) 
+  if (!expert && strchr (command, '\''))
   {
     puts ("\n\
 ERROR: Your $BROWSER contains a single\n\
@@ -320,11 +320,11 @@ in error; please read the manual page\n\
 for details. If you really want to use\n\
 this command, please put the word EXPERT\n\
 into a line of its own in your \n\
-~/.urlview file.\n\
+~/.config/urlview/config file.\n\
 ");
     exit (1);
   }
-  
+
   /*** compile the regexp ***/
 
   if ((i = regcomp (&rx, regexp, REG_EXTENDED | REG_ICASE | REG_NEWLINE)))
@@ -336,7 +336,7 @@ into a line of its own in your \n\
   }
 
   /*** find matching patterns ***/
-  
+
   if ((url = (char **) malloc (urlsize * sizeof (char *))) == NULL)
   {
     printf ("Couldn't allocate memory for url list\n");
@@ -417,7 +417,7 @@ into a line of its own in your \n\
 
   if (current < 0)
     current = urlcount - 1;
-  
+
   /*** present the URLs to the user ***/
 
 #ifdef USE_SLANG
@@ -445,7 +445,7 @@ into a line of its own in your \n\
   curs_set (1);
 #endif
   keypad (stdscr, TRUE);
-  
+
   top = current - PAGELEN / 2;
   if (top < 0)
     top = 0;
@@ -480,7 +480,7 @@ into a line of its own in your \n\
     standout ();
     mvaddstr (current - top + OFFSET, 0, "->");
     standend ();
-    
+
     oldcurrent = current;
 
     switch (i = getch ())
@@ -649,7 +649,7 @@ into a line of its own in your \n\
 	if (mutt_enter_string ((unsigned char *)buf, sizeof (buf), LINES - 1, 13, 0) == 0 && buf[0])
 	{
 	  i = atoi (buf);
-	  if (i < 1 || i > urlcount) 
+	  if (i < 1 || i > urlcount)
 	  {
 	    mvaddstr (LINES - 1, 0, "No such url number!");
 	    clrtoeol ();

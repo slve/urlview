@@ -8,18 +8,18 @@
 .\" Copyright (c) 2000 Thomas Roessler <roessler@does-not-exist.org>
 .\" Copyright (c) 2012 Michael Elkins <me@sigpipe.org>
 .\"
-.\" This document is free software; you can redistribute it and/or 
+.\" This document is free software; you can redistribute it and/or
 .\" modify it under the terms of the GNU General Public License as
 .\" published by the Free Software Foundation; either version 2 of the
 .\" License, or (at your option) any later version.
 .\"
-.TH "urlview" 1 
+.TH "urlview" 1
 .SH NAME
 .PP
 urlview \- URL extractor/launcher
 .SH SYNOPSIS
 .PP
-.B urlview 
+.B urlview
 \fIfilename\fP [ \fIfilename\fP ... ]
 .SH DESCRIPTION
 .PP
@@ -30,11 +30,11 @@ specific item.
 .SH CONFIGURATION
 .PP
 .B urlview
-attempts to read 
-.I ~/.urlview
+attempts to read
+.I ~/.config/urlview/config
 upon startup.  If this file
-doesn't exist, it will try to read a system wide file 
-in 
+doesn't exist, it will try to read a system wide file
+in
 .IR /etc/urlview/system.urlview .
 There are two configuration commands (order does not matter):
 .TP
@@ -42,11 +42,11 @@ REGEXP \fIregexp\fP
 .B urlview
 uses a regular expression to extract URLs from the specified
 text files.  \\r, \\t, \\n and \\f are all converted to
-their normal 
+their normal
 .BR printf (3)
 meanings.  The default REGEXP is:
 .PP
-.sp 
+.sp
 .ft RR
 .nf
 (((http|https|ftp|gopher)|mailto):(//)?[^ <>"\\t]*|(www|ftp)[0-9]?\\.[-a-z0-9.]+)[^ .,;\\t\\n\\r<">\\):]?[^, <>"\\t]*[^ .,;\\t\\n\\r<">\\):]
@@ -56,7 +56,7 @@ meanings.  The default REGEXP is:
 .sp
 .TP
 COMMAND \fIcommand\fP
-If the specified command contains a 
+If the specified command contains a
 .BR %s ,
 it will be subsituted
 with the URL that was requested, otherwise the URL is appended to
@@ -66,9 +66,9 @@ the COMMAND string.  The default COMMAND is:
 /etc/urlview/url_handler.sh
 .PP
 .B Note:
-You should 
+You should
 .I never
-put single quotes around the 
+put single quotes around the
 .BR %s .
 .B urlview
 does this for you, and also makes sure that single quotes eventually
@@ -86,7 +86,7 @@ Will cause urlview to quit after you launch a URL.
 .PP
 .IP "/etc/urlview/system.urlview"
 system-wide urlview configuration file
-.IP "~/.urlview"
+.IP "~/.config/urlview/config"
 urlview configuration file
 .SH ENVIRONMENT
 If the environment variable BROWSER is set to a browser command, or a
@@ -100,7 +100,7 @@ The rc-file provided by the Debian package contains a COMMAND option.
 .SH SEE ALSO
 .PP
 .BR printf (3),
-.BR regcomp (3), 
+.BR regcomp (3),
 .BR regex (7),
 .BR environ (7)
 .SH AUTHOR
@@ -112,4 +112,3 @@ Modified for Debian by Luis Francisco Gonzalez <luisgh@debian.org> and Emanuele 
 Modified for SuSE by Dr. Werner Fink <werner@suse.de> and Stepan Kasal <kasal@suse.cz>.
 .PP
 Changes put together by Thomas Roessler <roessler@does-not-exist.org>.
-
