@@ -148,7 +148,6 @@ void search_backward (char *search, int urlcount, char **url, int *redraw, int *
 
 int main (int argc, char **argv)
 {
-  struct passwd *pw;
   struct stat stat_buf;
 #ifndef USE_SLANG
   SCREEN *scr;
@@ -195,8 +194,7 @@ int main (int argc, char **argv)
 
   /*** read the initialization file ***/
 
-  pw = getpwuid (getuid ());
-  snprintf (buf, sizeof (buf), "%s/.config/urlview/config", pw->pw_dir);
+  snprintf (buf, sizeof (buf), "%s/urlview/config", getenv("XDG_CONFIG_HOME"));
 
   /*** Check for users rc-file ***/
   if (stat (buf,&stat_buf) == -1)
@@ -320,7 +318,7 @@ in error; please read the manual page\n\
 for details. If you really want to use\n\
 this command, please put the word EXPERT\n\
 into a line of its own in your \n\
-~/.config/urlview/config file.\n\
+$XDG_CONFIG_HOME/urlview/config file.\n\
 ");
     exit (1);
   }
